@@ -9,12 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminHomeController extends AbstractController
 {
     /**
-     * @Route("/admin", name="list_user")
+     * @Route("/admin", name="admin_home")
      */
     public function index(UserRepository $userRepository)
     {
+
         // $userList = $pdo->query("SELECT * from user")->fetchAll();
-        $userList = $userRepository->findAll();
+        $userList = $userRepository->getUsersOnly();
 
 
         return $this->render('admin_home/index.html.twig', [

@@ -44,6 +44,12 @@ class User implements UserInterface
      */
     private $lastname;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Session::class, inversedBy="relation")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $session;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,6 +148,18 @@ class User implements UserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getSession(): ?Session
+    {
+        return $this->session;
+    }
+
+    public function setSession(?Session $session): self
+    {
+        $this->session = $session;
 
         return $this;
     }

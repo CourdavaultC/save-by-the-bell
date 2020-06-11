@@ -27,6 +27,11 @@ class HalfJourney
      */
     private $half_date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=presences::class)
+     */
+    private $relation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class HalfJourney
     public function setHalfDate(\DateTimeInterface $half_date): self
     {
         $this->half_date = $half_date;
+
+        return $this;
+    }
+
+    public function getRelation(): ?presences
+    {
+        return $this->relation;
+    }
+
+    public function setRelation(?presences $relation): self
+    {
+        $this->relation = $relation;
 
         return $this;
     }
