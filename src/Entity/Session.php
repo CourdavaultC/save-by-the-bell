@@ -27,11 +27,6 @@ class Session
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dates_session;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
     private $date_start;
 
     /**
@@ -42,11 +37,17 @@ class Session
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="session", orphanRemoval=true)
      */
-    private $relation;
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity=HalfJourney::class, mappedBy="session", orphanRemoval=true)
+     */
+    private $half_journeys;
 
     public function __construct()
     {
-        $this->relation = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->half_journeys = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,18 +63,6 @@ class Session
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDatesSession(): ?\DateTimeInterface
-    {
-        return $this->dates_session;
-    }
-
-    public function setDatesSession(\DateTimeInterface $dates_session): self
-    {
-        $this->dates_session = $dates_session;
 
         return $this;
     }
@@ -105,28 +94,59 @@ class Session
     /**
      * @return Collection|User[]
      */
-    public function getRelation(): Collection
+    public function getUsers(): Collection
     {
-        return $this->relation;
+        return $this->users;
     }
 
-    public function addRelation(User $relation): self
+    public function addUser(User $user): self
     {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
-            $relation->setSession($this);
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setSession($this);
         }
 
         return $this;
     }
 
-    public function removeRelation(User $relation): self
+    public function removeUser(User $user): self
     {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
             // set the owning side to null (unless already changed)
-            if ($relation->getSession() === $this) {
-                $relation->setSession(null);
+            if ($user->getSession() === $this) {
+                $user->setSession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HalfJourney[]
+     */
+    public function getHalfJourneys(): Collection
+    {
+        return $this->half_journeys;
+    }
+
+    public function addHalfJourney(HalfJourney $halfJourney): self
+    {
+        if (!$this->half_journeys->contains($halfJourney)) {
+            $this->half_journeys[] = $halfJourney;
+            $halfJourney->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHalfJourney(HalfJourney $halfJourney): self
+    {
+        if ($this->half_journeys->contains($halfJourney)) {
+            $this->half_journeys->removeElement($halfJourney);
+            // set the owning side to null (unless already changed)
+            if ($halfJourney->getSession() === $this) {
+                $halfJourney->setSession(null);
             }
         }
 

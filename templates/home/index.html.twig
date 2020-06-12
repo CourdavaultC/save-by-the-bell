@@ -4,8 +4,19 @@
 
 {% block body %}
     <div class="login100-pic js-tilt" data-tilt>
-        <img src="images/img-01.png" alt="IMG">
+        <img src="images/Saved_by_the_Bell_logo.png" alt="IMG">
+        {{ "now"|date("m/d/Y")|format_datetime('full', 'short', locale='fr') }}
+        <figure>
+            <figcaption>Saved By The Bell</figcaption>
+            <audio
+                    controls
+                    src="css/media/Saved-by-the-Bell.mp3">
+                Your browser does not support the
+                <code>audio</code> element.
+            </audio>
+        </figure>
     </div>
+
 
     <form method="post" class="login100-form validate-form">
         {% if error %}
@@ -14,12 +25,12 @@
 
         {% if app.user %}
             <div class="mb-3">
-                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                Vous êtes connecté {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
         {% endif %}
 
 					<span class="login100-form-title">
-						Member Login
+						Connexion du membre
 					</span>
 
         <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
@@ -40,16 +51,16 @@
 
         <div class="container-login100-form-btn">
             <button class="login100-form-btn">
-                Login
+                Connexion
             </button>
         </div>
 
         <div class="text-center p-t-12">
 						<span class="txt1">
-							Forgot
+							Oublié
 						</span>
             <a class="txt2" href="#">
-                Username / Password?
+                Utilisateur / Mot de passe
             </a>
         </div>
 

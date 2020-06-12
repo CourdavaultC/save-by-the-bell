@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -49,6 +51,16 @@ class User implements UserInterface
      * @ORM\JoinColumn(nullable=true)
      */
     private $session;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Presences::class, mappedBy="user")
+     */
+    private $presence;
+
+    public function __construct()
+    {
+        $this->presence = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -160,6 +172,37 @@ class User implements UserInterface
     public function setSession(?Session $session): self
     {
         $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Presences[]
+     */
+    public function getPresence(): Collection
+    {
+        return $this->presence;
+    }
+
+    public function addPresence(Presences $presence): self
+    {
+        if (!$this->presence->contains($presence)) {
+            $this->presence[] = $presence;
+            $presence->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePresence(Presences $presence): self
+    {
+        if ($this->presence->contains($presence)) {
+            $this->presence->removeElement($presence);
+            // set the owning side to null (unless already changed)
+            if ($presence->getUser() === $this) {
+                $presence->setUser(null);
+            }
+        }
 
         return $this;
     }

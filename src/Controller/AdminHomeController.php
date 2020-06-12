@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Presences;
+use App\Entity\Session;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +18,7 @@ class AdminHomeController extends AbstractController
 
         // $userList = $pdo->query("SELECT * from user")->fetchAll();
         $userList = $userRepository->getUsersOnly();
+
 
 
         return $this->render('admin_home/index.html.twig', [

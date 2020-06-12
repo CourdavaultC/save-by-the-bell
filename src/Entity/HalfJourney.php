@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HalfJourneyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,10 +19,6 @@ class HalfJourney
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $presences;
 
     /**
      * @ORM\Column(type="datetime")
@@ -28,25 +26,24 @@ class HalfJourney
     private $half_date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=presences::class)
+     * @ORM\ManyToOne(targetEntity=Session::class, inversedBy="half_journeys")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $relation;
+    private $session;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Presences::class, mappedBy="halfJourney", orphanRemoval=true)
+     */
+    private $presences;
+
+    public function __construct()
+    {
+        $this->presences = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPresences(): ?bool
-    {
-        return $this->presences;
-    }
-
-    public function setPresences(bool $presences): self
-    {
-        $this->presences = $presences;
-
-        return $this;
     }
 
     public function getHalfDate(): ?\DateTimeInterface
@@ -61,15 +58,47 @@ class HalfJourney
         return $this;
     }
 
-    public function getRelation(): ?presences
+    public function getSession(): ?Session
     {
-        return $this->relation;
+        return $this->session;
     }
 
-    public function setRelation(?presences $relation): self
+    public function setSession(?Session $session): self
     {
-        $this->relation = $relation;
+        $this->session = $session;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Presences[]
+     */
+    public function getPresences(): Collection
+    {
+        return $this->presences;
+    }
+
+    public function addPresence(Presences $presence): self
+    {
+        if (!$this->presences->contains($presence)) {
+            $this->presences[] = $presence;
+            $presence->setHalfJourney($this);
+        }
+
+        return $this;
+    }
+
+    public function removePresence(Presences $presence): self
+    {
+        if ($this->presences->contains($presence)) {
+            $this->presences->removeElement($presence);
+            // set the owning side to null (unless already changed)
+            if ($presence->getHalfJourney() === $this) {
+                $presence->setHalfJourney(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

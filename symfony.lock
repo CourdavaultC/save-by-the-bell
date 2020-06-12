@@ -229,6 +229,9 @@
     "symfony/inflector": {
         "version": "v5.1.0"
     },
+    "symfony/intl": {
+        "version": "v5.1.0"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -242,6 +245,9 @@
         "version": "v1.0.8"
     },
     "symfony/polyfill-intl-grapheme": {
+        "version": "v1.17.0"
+    },
+    "symfony/polyfill-intl-icu": {
         "version": "v1.17.0"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -359,6 +365,9 @@
         "version": "v5.1.0"
     },
     "twig/extra-bundle": {
+        "version": "v3.0.3"
+    },
+    "twig/intl-extra": {
         "version": "v3.0.3"
     },
     "twig/twig": {

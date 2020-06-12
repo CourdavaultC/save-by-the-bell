@@ -2,14 +2,16 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Session;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     const NB_USERS = 20;
     const NB_ADMINS = 3;
@@ -50,6 +52,7 @@ class UserFixtures extends Fixture
            $user->setEmail("email$i@mail.com");
            $user->setPassword($this->encoder->encodePassword($user, "password$i"));
            $user->setRoles(["ROLE_USER"]);
+           $user->setSession($this->getReference("Session " . random_int(0, SessionFixtures::NB_SESSION - 1)));
            $this->addReference("user$i", $user);
 
            $manager->persist($user);
@@ -59,5 +62,12 @@ class UserFixtures extends Fixture
         // $manager->persist($product);
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            SessionFixtures::class
+        ];
     }
 }
