@@ -8,17 +8,17 @@
 
     <div class="login100-pic js-tilt" data-tilt>
         <img src="images/Saved_by_the_Bell_logo.png" alt="IMG">
-        {{ "now"|date("m/d/Y")|format_datetime('full', 'short', locale='fr') }}
-        <figure>
-            <figcaption>Saved By The Bell</figcaption>
-            <audio
-                    controls
-                    src="css/media/Saved-by-the-Bell.mp3">
-                Your browser does not support the
-                <code>audio</code> element.
-            </audio>
-        </figure>
+        <p class="text-center">{{ "now"|date("m/d/Y H:i:s")|format_datetime('full', 'short', locale='fr') }}</p>
+
+        <div class="container text-center">
+            <figure>
+                <audio controls src="css/media/Saved-by-the-Bell.mp3"></audio>
+                <figcaption>Saved By The Bell</figcaption>
+            </figure>
+        </div>
+
     </div>
+
 
 
     <form method="post" class="login100-form validate-form">

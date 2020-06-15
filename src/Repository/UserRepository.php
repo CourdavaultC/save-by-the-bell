@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Session;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -36,17 +37,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function getUsersOnly()
+    public function getUsersOnlyBySession(Session $session)
     {
-        // SELECT * from user WHERE roles NOT LILE '%ROLE_ADMIN%';
+        // SELECT * from user WHERE roles NOT LIkE '%ROLE_ADMIN%';
         return $this->createQueryBuilder('u')
             ->where('u.roles NOT LIKE :role')
             ->setParameter('role', '%ROLE_ADMIN%')
+            ->andWhere('s = :session')
+            ->setParameter('session', $session)
             ->join('u.session', 's')
             ->orderBy('s.id','ASC')
             ->getQuery()
             ->getResult();
     }
+
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

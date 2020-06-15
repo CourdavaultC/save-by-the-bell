@@ -44,6 +44,7 @@ class Session
      */
     private $half_journeys;
 
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -152,4 +153,6 @@ class Session
 
         return $this;
     }
+
+
 }

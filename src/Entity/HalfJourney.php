@@ -36,6 +36,11 @@ class HalfJourney
      */
     private $presences;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $period;
+
     public function __construct()
     {
         $this->presences = new ArrayCollection();
@@ -97,6 +102,18 @@ class HalfJourney
                 $presence->setHalfJourney(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPeriod(): ?string
+    {
+        return $this->period;
+    }
+
+    public function setPeriod(string $period): self
+    {
+        $this->period = $period;
 
         return $this;
     }

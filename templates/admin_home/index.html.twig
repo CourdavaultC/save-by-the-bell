@@ -9,13 +9,25 @@
 </style>
 
 <div class="example-wrapper">
+    <h1>Bonjour {{ app.user.firstname }}</h1>
     <h1>TABLEAU DES PRESENCES :</h1>
 
+    <select>
+        <option>Sélectionner votre session</option>
+        {% for session in session_list %}
+            <option value="{{ session.id }}"{% if session == session_actuelle %} selected="selected"{% endif %}>{{ session.name }}</option>
+        {% endfor %}
+    </select>
+
+    {% if user_list %}
     <table class="table">
         <thead>
         <tr>
             <th scope="col">Date début</th>
             <th scope="col">Date fin</th>
+            <th scope="col">Date du jour</th>
+            <th scope="col">Matinée</th>
+            <th scope="col">Après-midi</th>
             <th scope="col">Prénom</th>
             <th scope="col">Nom</th>
             <th scope="col">Présence</th>
@@ -26,6 +38,9 @@
             <tr>
                 <td>{{ user.session.dateStart.format("Y-m-d") }}</td>
                 <td>{{ user.session.dateEnd.format("Y-m-d") }}</td>
+                <td> {{ "now"|date("m/d/Y H:i:s")|format_datetime('full', 'short', locale='fr') }}</td>
+                <td></td>
+                <td></td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>present</td>
@@ -33,6 +48,16 @@
         {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-primary d-flex justify-content-center" href="{{ path('app_logout') }}">Déconnexion</a>
+    {% endif %}
+
+    <a class="btn btn-primary btn-lg" href="{{ path('app_logout') }}">Déconnexion</a>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('select').change(function(){
+            window.location.href = '/admin/' + $(this).val();
+        });
+    </script>
 {% endblock %}
