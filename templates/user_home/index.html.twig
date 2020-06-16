@@ -8,14 +8,14 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ user.firstname }} {{ user.lastname }}! ✅</h1>
-    <h2>Inscrit à la {{ user.session.name }}</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/save-by-the-bell/src/Controller/UserHomeController.php'|file_link(0) }}">src/Controller/UserHomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/save-by-the-bell/templates/user_home/index.html.twig'|file_link(0) }}">templates/user_home/index.html.twig</a></code></li>
-    </ul>
+
+<div class="example-wrapper">
+    <p class="">Nous sommes le {{ "now"|date("m/d/Y H:i:s")|format_datetime('full', 'short', locale='fr') }}</p><br>
+    <h1>Hello {{ user.firstname }} {{ user.lastname }}! ✅</h1>
+    <h2>Connecté(e) à {{ user.session.name }}</h2><br>
+    <a class="btn btn-primary btn-lg text-justify" href="{{ path('app_logout') }}">Déconnexion</a>
 </div>
+
+
 {% endblock %}

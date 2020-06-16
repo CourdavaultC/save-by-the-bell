@@ -23,27 +23,25 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">Date début</th>
-            <th scope="col">Date fin</th>
+
             <th scope="col">Date du jour</th>
             <th scope="col">Matinée</th>
             <th scope="col">Après-midi</th>
             <th scope="col">Prénom</th>
             <th scope="col">Nom</th>
-            <th scope="col">Présence</th>
+
         </tr>
         </thead>
         <tbody>
         {% for user in user_list %}
             <tr>
-                <td>{{ user.session.dateStart.format("Y-m-d") }}</td>
-                <td>{{ user.session.dateEnd.format("Y-m-d") }}</td>
+
                 <td> {{ "now"|date("m/d/Y H:i:s")|format_datetime('full', 'short', locale='fr') }}</td>
-                <td></td>
-                <td></td>
+                <td>{{ has_presence(user, half_journey_morning) }}</td>
+                <td>{{ has_presence(user, half_journey_afternoon) }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
-                <td>present</td>
+
             </tr>
         {% endfor %}
         </tbody>

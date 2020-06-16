@@ -47,6 +47,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('session', $session)
             ->join('u.session', 's')
             ->orderBy('s.id','ASC')
+            ->leftJoin('u.presence', 'p')
+            ->leftJoin('p.halfJourney', 'hj')
+            ->andWhere('p IS NULL OR hj.half_date = :today')
+            ->setParameter('today', (new \DateTime())->format("Y-m-d"))
             ->getQuery()
             ->getResult();
     }
