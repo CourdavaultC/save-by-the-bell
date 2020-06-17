@@ -19,7 +19,7 @@ class HasPresenceExtension extends AbstractExtension
         ];
     }
 
-    public function hasPresence(User $user, HalfJourney $halfJourney)
+    public function hasPresence(User $user, ?HalfJourney $halfJourney = null)
     {
         foreach($user->getPresence() as $presence) {
             if ($presence->getHalfJourney()===$halfJourney) {

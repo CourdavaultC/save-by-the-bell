@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if app.request.get('_route') == "edit_user" %}Editer{% else %}Ajouter{% endif %} un produit
+{% endblock %}
+
+{% block body %}
+    <h1>{% if app.request.get('_route') == "edit_user" %}Editer{% else %}Ajouter{% endif %} un produit</h1>
+    {{ form(form) }}
+{% endblock %}
+

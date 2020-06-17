@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if app.request.get('_route') == "edit_session" %}Editer{% else %}Ajouter{% endif %} une session
+{% endblock %}
+
+
+
+{% block body %}
+    <h1>{% if app.request.get('_route') == "edit_session" %}Editer{% else %}Ajouter{% endif %} une session</h1>
+    {{ form(form) }}
+    <div>
+        <a class="btn btn-primary btn-lg" href="{{ path('admin_home') }}">Retour</a>
+    </div>
+{% endblock %}
