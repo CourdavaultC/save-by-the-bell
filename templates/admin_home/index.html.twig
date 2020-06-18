@@ -28,37 +28,10 @@
     <a class="btn btn-primary btn-lg" href="{{ path('register') }}">Ajouter un utilisateur</a>
 
     <a class="btn btn-primary btn-lg" href="{{ path('register_session') }}">Ajouter une session</a>
+    <div id="presences-table">
+    {% include 'admin_home/presences_in_sessions.html.twig' %}
 
-
-    {% if user_list %}
-    <table class="table">
-        <thead>
-        <tr>
-
-            <th scope="col">Date du jour</th>
-            <th scope="col">Matinée</th>
-            <th scope="col">Après-midi</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in user_list %}
-            <tr>
-
-                <td> {{ "now"|date("m/d/Y H:i:s")|format_datetime('full', 'short', locale='fr') }}</td>
-                <td>{{ has_presence(user, half_journey_morning) }}</td>
-                <td>{{ has_presence(user, half_journey_afternoon) }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-
+    </div>
     <a class="btn btn-primary btn-lg" href="{{ path('app_logout') }}">Déconnexion</a>
 </div>
 {% endblock %}
@@ -68,5 +41,16 @@
         $('select').change(function(){
             window.location.href = '/admin/' + $(this).val();
         });
+        {% if session_actuelle %}
+        function refreshTable() {
+            setTimeout(function(){
+                $.get('/admin/ajax/presences/{{ session_actuelle.id }}', function(html){
+                    $('#presences-table').html(html);
+                    refreshTable();
+                });
+            }, 1000)
+        }
+        refreshTable();
+        {% endif %}
     </script>
 {% endblock %}

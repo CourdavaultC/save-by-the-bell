@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\HalfJourney;
+use App\Entity\Session;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,18 @@ class HalfJourneyRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, HalfJourney::class);
+    }
+
+    public function getHalfJourneyBySessionAndByDateAndByPeriod(Session $session, \DateTimeInterface $date, $period)
+    {
+        return $this->createQueryBuilder('hj')
+            ->join('hj.session', 's')
+            ->where('s = :session AND hj.half_date = :date AND hj.period = :period')
+            ->setParameter('session', $session)
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->setParameter('period', $period)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**
