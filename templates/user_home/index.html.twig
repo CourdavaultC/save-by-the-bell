@@ -16,8 +16,8 @@
 
 <div class="example-wrapper">
     <p class="">Nous sommes le {{ "now"|date("m/d/Y H:i:s")|format_datetime('full', 'short', locale='fr') }}</p><br>
-    <h1>Hello {{ user.firstname }} {{ user.lastname }}! ✅</h1>
-    <h2>Connecté(e) à {{ user.session.name }}</h2><br>
+    <h1>Hello {{ user.firstname }} {{ user.lastname }}! ✅</h1><br>
+    <h2>Vous êtes connecté(e) à {{ user.session.name }}</h2><br>
     <a class="btn btn-primary btn-lg text-justify" href="{{ path('app_logout') }}">Déconnexion</a>
 </div>
 

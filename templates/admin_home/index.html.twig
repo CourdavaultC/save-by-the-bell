@@ -9,16 +9,16 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Bonjour {{ app.user.firstname }}</h1>
+    <h1>Bonjour {{ app.user.firstname }}</h1><br>
     {% for message in app.flashes('notice') %}
         <div class="flash-notice">
             {{ message }}
         </div>
     {% endfor %}
-    <h1>TABLEAU DES PRESENCES :</h1>
+    <h1>TABLEAU DES PRESENCES :</h1><br>
 
 
-    <select>
+    <select class="btn btn-primary btn-lg">
         <option>Sélectionner votre session</option>
         {% for session in session_list %}
             <option value="{{ session.id }}"{% if session == session_actuelle %} selected="selected"{% endif %}>{{ session.name }}</option>
@@ -39,7 +39,10 @@
 {% block javascripts %}
     <script>
         $('select').change(function(){
-            window.location.href = '/admin/' + $(this).val();
+            var val = $(this).val();
+            if(val.match(/\d+/)) {
+                window.location.href = '/admin/' + val;
+            }
         });
         {% if session_actuelle %}
         function refreshTable() {
